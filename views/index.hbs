@@ -1,0 +1,68 @@
+<!-- {{#if token}}
+
+{{else}}
+  <a href="/auth">
+    <img src="https://s3.eu-west-2.amazonaws.com/uclapi-static/SignInWithUCLSmall.png">
+  </a>
+{{/if}} -->
+
+<div class="container">
+  <div class="row">
+    <div class="col title">
+      <h1>How late can I sleep?</h1>
+    </div>
+  </div>
+
+  <form method="post">
+
+    <div class="row">
+      <div class="col-4 sentence-part">
+        on
+      </div>
+
+      <div class="col-4">
+        <select class="form-control form-control-lg" name="day">
+          <option value="1">Monday</option>
+          <option value="2">Tuesday</option>
+          <option value="3">Wednesday</option>
+          <option value="4">Thursday</option>
+          <option value="5">Friday</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-4 sentence-part">
+        at
+      </div>
+
+      <div class="col-4">
+        <input class="form-control form-control-lg" name="location" placeholder="WC1E 6BT">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-4 sentence-part">
+        needing
+      </div>
+
+      <div class="col-4">
+        <div class="input-group">
+          <input class="form-control form-control-lg" name="extra" type="number" value="30">
+          <span class="input-group-addon">minutes</span>
+        </div>
+      </div>
+
+      <div class="col-4 sentence-part">
+        to get dressed
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col submit">
+        <button type="submit" class="btn btn-primary">Calculate!</button>
+      </div>
+    </div>
+
+  </form>
+</div>

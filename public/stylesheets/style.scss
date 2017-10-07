@@ -1,0 +1,17 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.title {
+  text-align: center;
+}
+
+.sentence-part {
+  font-size: 2em;
+  line-height: 1.5em;
+
+  &:first-child {
+    text-align: right;
+  }
+}
