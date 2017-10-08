@@ -1,6 +1,9 @@
 config.js
 .env
 
+# Compiled CSS
+public/stylesheets/style.css*
+
 # Logs
 logs
 *.log
