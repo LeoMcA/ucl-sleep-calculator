@@ -6,6 +6,8 @@ var util = require('util')
 var moment = require('moment-timezone')
 var Timetable = require('../lib/timetable')
 
+moment.tz.setDefault('Europe/London')
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   var token = req.cookies.token
@@ -17,7 +19,7 @@ router.get('/', function(req, res, next) {
 });
 
 function next_day (day) {
-  var now = moment.tz('Europe/London')
+  var now = moment()
   if (now.day() == day) {
     var date = now
   } else if (now.day() <= day) {
@@ -41,7 +43,7 @@ router.post('/', (req, res, next) => {
     var first_class = day_timetable.first_class()
 
     var class_location = first_class.location.address.join(' ')
-    var class_time = moment.tz(`${day_date} ${first_class.start_time}`, 'Europe/London')
+    var class_time = moment(`${day_date} ${first_class.start_time}`)
     console.log('class_location', class_location)
     console.log('class_time', class_time)
 
