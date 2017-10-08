@@ -1,6 +1,5 @@
 var express = require('express')
 var router = express.Router()
-var config = require('../config')
 var crypto = require('crypto')
 var request = require('request')
 
@@ -9,23 +8,23 @@ router.get('/', (req, res, next) => {
     var state = buf.toString('hex')
 
     res.cookie('state', state)
-    res.redirect(`${config.base_url}/oauth/authorise` +
-                  `?client_id=${config.client_id}` +
+    res.redirect(`${process.env.BASE_URL}/oauth/authorise` +
+                  `?client_id=${process.env.CLIENT_ID}` +
                   `&state=${state}`)
   })
 })
 
 router.get('/callback', (req, res, next) => {
   var q = req.query
-  if (q.result === 'allowed' && config.client_id === q.client_id && req.cookies.state === q.state) {
-    request(`${config.base_url}/oauth/token` +
-            `?client_id=${config.client_id}` +
+  if (q.result === 'allowed' && process.env.CLIENT_ID === q.client_id && req.cookies.state === q.state) {
+    request(`${process.env.BASE_URL}/oauth/token` +
+            `?client_id=${process.env.CLIENT_ID}` +
             `&code=${q.code}` +
-            `&client_secret=${config.client_secret}`,
+            `&client_secret=${process.env.CLIENT_SECRET}`,
             (err, reqRes, body) => {
               b = JSON.parse(body)
               if (err) res.status(500).send(`OAuth failed: ${err}`)
-              if (b.ok && config.client_id === b.client_id && req.cookies.state === b.state) {
+              if (b.ok && process.env.CLIENT_ID === b.client_id && req.cookies.state === b.state) {
                 res.cookie('token', b.token)
                 res.redirect('/')
               } else {

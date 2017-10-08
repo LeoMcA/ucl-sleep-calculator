@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var config = require('../config')
 var request = require('request')
 var maps = require('@google/maps')
 var util = require('util')
@@ -30,8 +29,8 @@ function next_day (day) {
 
 router.post('/', (req, res, next) => {
   var token = req.cookies.token
-  var timetable = new Timetable({ base_url: config.base_url,
-                                  client_secret: config.client_secret,
+  var timetable = new Timetable({ base_url: process.env.BASE_URL,
+                                  client_secret: process.env.CLIENT_SECRET,
                                   token: token })
 
   var b = req.body
@@ -45,7 +44,7 @@ router.post('/', (req, res, next) => {
     console.log('class_location', class_location)
     console.log('class_time', class_time)
 
-    var mapsClient = maps.createClient({ key: config.google_key })
+    var mapsClient = maps.createClient({ key: process.env.GOOGLE_KEY })
 
     mapsClient.distanceMatrix({
       origins: b.location,
@@ -58,7 +57,7 @@ router.post('/', (req, res, next) => {
         var duration = mRes.json.rows[0].elements[0].duration
         var wake_time = class_time.subtract(b.extra, 'minutes')
                                   .subtract(duration.value, 'seconds')
-                                  
+
         res.render('calculation', {
           travel_time: duration.text,
           extra_time: b.extra,
