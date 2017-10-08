@@ -3,7 +3,7 @@ var router = express.Router();
 var request = require('request')
 var maps = require('@google/maps')
 var util = require('util')
-var moment = require('moment')
+var moment = require('moment-timezone')
 var Timetable = require('../lib/timetable')
 
 /* GET home page. */
@@ -17,12 +17,13 @@ router.get('/', function(req, res, next) {
 });
 
 function next_day (day) {
-  if (moment().day() == day) {
-    var date = moment()
-  } else if (moment().day() <= day) {
-    var date = moment().day(day)
+  var now = moment.tz('Europe/London')
+  if (now.day() == day) {
+    var date = now
+  } else if (now.day() <= day) {
+    var date = now.day(day)
   } else {
-    var date = moment().add(1, 'week').day(day)
+    var date = now.add(1, 'week').day(day)
   }
   return date
 }
@@ -40,7 +41,7 @@ router.post('/', (req, res, next) => {
     var first_class = day_timetable.first_class()
 
     var class_location = first_class.location.address.join(' ')
-    var class_time = moment(`${day_date} ${first_class.start_time}`)
+    var class_time = moment.tz(`${day_date} ${first_class.start_time}`, 'Europe/London')
     console.log('class_location', class_location)
     console.log('class_time', class_time)
 
